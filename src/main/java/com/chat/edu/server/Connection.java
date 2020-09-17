@@ -1,4 +1,4 @@
-package com.chat.edu;
+package com.chat.edu.server;
 
 import java.io.*;
 import java.net.Socket;
@@ -33,8 +33,8 @@ public class Connection implements Runnable{
                         x.second.writeUTF(clientMessage.getDate() + ":" +  clientMessage.getText() + "\n");
                         x.second.flush();
                     }
-                    // com.chat.edu.Server.clientSocketList...
-                    // send com.chat.edu.Message to all other clients
+                    // com.chat.edu.server.Server.clientSocketList...
+                    // send com.chat.edu.server.Message to all other clients
                 } else if (clientLine.startsWith("/hist")) {
                     //History clientMessage = new History(clientLine);
 

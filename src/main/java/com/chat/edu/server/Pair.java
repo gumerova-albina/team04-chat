@@ -1,4 +1,4 @@
-package com.chat.edu;
+package com.chat.edu.server;
 
 public class Pair<K, L> {
     public final K first;

@@ -1,4 +1,4 @@
-package com.chat.edu;
+package com.chat.edu.server;
 
 import java.io.*;
 import java.net.ServerSocket;

@@ -1,9 +1,7 @@
-package main.java.com.chat.edu;
+package com.chat.edu.client;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
-import java.sql.SQLOutput;
-import java.util.Scanner;
 
 public class ClientController {
     private static String host = "127.0.0.1";

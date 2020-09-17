@@ -1,4 +1,4 @@
-package main.java.com.chat.edu;
+package com.chat.edu.client;
 
 import java.io.*;
 import java.net.Socket;
