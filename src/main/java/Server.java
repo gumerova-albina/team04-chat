@@ -1,7 +1,3 @@
-package main.java;
-
-import main.java.Connection;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
