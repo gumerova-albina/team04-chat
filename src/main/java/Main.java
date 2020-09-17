@@ -4,6 +4,7 @@ import java.net.Socket;
 
 public class Main {
     public static void main(String[] args) {
+
         while(true) {
             try (final ServerSocket connectionPortListener = new ServerSocket(10_000);
                  final Socket clientConnection = connectionPortListener.accept();
