@@ -3,9 +3,13 @@ package com.chat.edu.server;
 import java.io.*;
 import java.net.Socket;
 
-public class Connection implements Runnable{
+/**
+ * Class that receives and handles messages from clients
+ */
+public class MessageHadler implements Runnable{
     final private Socket clientSocket;
-    public Connection(Socket clientSocket) {
+
+    public MessageHadler(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
 
@@ -17,45 +21,41 @@ public class Connection implements Runnable{
                      new BufferedOutputStream(
                              clientSocket.getOutputStream()))
         ) {
-            // "/snd <сообщение>"
+            /*
+            * Should be here hashMap?
+            *
+             */
             Pair <DataInputStream, DataOutputStream> pair = new Pair<>(input, out);
             Server.collection.add(pair);
             while(true) {
-                String clientLine;
+                Message clientMessage;
                 try {
-                    clientLine = input.readUTF();
+                    clientMessage = new Message(input.readUTF());
                 } catch (EOFException e) {
                     continue;
                 }
-                if (clientLine.startsWith("/snd")) {
-                    Message clientMessage = new Message(clientLine);
+                if ("/snd".equals(clientMessage.getAction())) {
                     for(Pair <DataInputStream, DataOutputStream> x : Server.collection){
-                        x.second.writeUTF(clientMessage.getDate() + ":" +  clientMessage.getText() + "\n");
+                        x.second.writeUTF(clientMessage.constructedMessage());
                         x.second.flush();
                     }
                     // com.chat.edu.server.Server.clientSocketList...
                     // send com.chat.edu.server.Message to all other clients
-                } else if (clientLine.startsWith("/hist")) {
+                } else if ("/hist".equals(clientMessage.getAction())) {
                     //History clientMessage = new History(clientLine);
 
                     // send History to exact client
-                } else if (clientLine.startsWith("/exit")){
-
-                }
-
-                if (clientLine.startsWith("/exit")) {
+                } else if ("/exit".equals(clientMessage.getAction())) {
                     // need to remove input & out from server`s collection
                     // for that it is better to have map (user, its socket info)
                     // add when user initialising is done
-                    System.out.println("User left chat");
+                    System.out.println(!"".equals(clientMessage.getLogin()) ? clientMessage.getLogin()+" left chat" : "User left chat");
                     Thread.currentThread().interrupt();
                     return;
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

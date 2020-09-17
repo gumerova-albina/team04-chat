@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
-    private static int PORT = 10_000;
+    private static final int PORT = 10_000;
 
     public static List<Socket> clientSocketList = new ArrayList<>();
     public static List<Pair <DataInputStream, DataOutputStream>> collection = new ArrayList<>();
@@ -17,7 +17,7 @@ public class Server {
             while (true) {
                 final Socket clientConnection = connectionPortListener.accept();
                 System.out.println("User joined chat");
-                new Thread(new Connection(clientConnection)).start();
+                new Thread(new MessageHadler(clientConnection)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();

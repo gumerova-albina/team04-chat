@@ -6,6 +6,11 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * Class that represents input messages
+ *
+ */
+
 public class MessageReader extends Thread{
     private DataInputStream input;
     private Socket connection;
