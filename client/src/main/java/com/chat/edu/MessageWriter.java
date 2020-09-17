@@ -5,8 +5,10 @@ import java.net.Socket;
 
 public class MessageWriter extends Thread{
     private DataOutputStream out;
+    private Socket connection;
 
     public MessageWriter(Socket connection){
+        this.connection = connection;
         try {
             out = new DataOutputStream(
                     new BufferedOutputStream(
@@ -23,6 +25,9 @@ public class MessageWriter extends Thread{
 
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Please input your login");
+            message = reader.readLine();
+
             do {
                 message = reader.readLine();
                 out.writeUTF(message);
@@ -30,6 +35,12 @@ public class MessageWriter extends Thread{
             } while (!"/exit".equals(message));
         } catch (IOException e) {
             System.out.println("Can't send message to server");
+            e.printStackTrace();
+        }
+        try {
+            connection.close();
+        } catch (IOException e) {
+            System.out.println("Can't close connection");
             e.printStackTrace();
         }
     }
