@@ -18,7 +18,7 @@ public class Connection implements Runnable{
                              clientSocket.getOutputStream()))
         ) {
             // "/snd <сообщение>"
-            Utils.Pair <DataInputStream, DataOutputStream> pair = new Utils.Pair<>(input, out);
+            Pair <DataInputStream, DataOutputStream> pair = new Pair<>(input, out);
             Server.collection.add(pair);
             while(true) {
 
@@ -26,7 +26,7 @@ public class Connection implements Runnable{
                 String clientLine = input.readUTF();
                 if (clientLine.startsWith("/snd")) {
                     Message clientMessage = new Message(clientLine);
-                    for(Utils.Pair <DataInputStream, DataOutputStream> x : Server.collection){
+                    for(Pair <DataInputStream, DataOutputStream> x : Server.collection){
                         x.second.writeUTF(clientMessage.getDate() + ":" +  clientMessage.getText() + "\n");
                     }
                     // Server.clientSocketList...

@@ -12,7 +12,7 @@ public class Server {
     private static int PORT;
 
     public static List<Socket> clientSocketList = new ArrayList<>();
-    public static List<  Utils.Pair <DataInputStream, DataOutputStream>> collection;
+    public static List<  Pair <DataInputStream, DataOutputStream>> collection;
 
     public static void main(String[] args) {
         try (final ServerSocket connectionPortListener = new ServerSocket(PORT);) {
