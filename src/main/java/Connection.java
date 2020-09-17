@@ -1,4 +1,3 @@
-import jdk.internal.net.http.common.Pair;
 import jdk.javadoc.internal.doclets.toolkit.util.Utils;
 
 import java.io.*;
@@ -35,7 +34,7 @@ public class Connection implements Runnable{
                 }
 
                 if (clientLine.startsWith("/hist")) {
-                    History clientMessage = new History(clientLine);
+                    //History clientMessage = new History(clientLine);
 
                     // send History to exact client
                 }
