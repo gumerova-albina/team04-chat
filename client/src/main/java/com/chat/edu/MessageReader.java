@@ -8,13 +8,13 @@ import java.net.Socket;
 public class MessageReader extends Thread{
     private DataInputStream input;
 
-    public MessageReader(Socket connection) {
+    MessageReader(Socket connection) {
         try {
             input = new DataInputStream(
                     new BufferedInputStream(
                             connection.getInputStream()));
         } catch (IOException e) {
-            System.out.println("Can't get message from server");
+            System.out.println("Can't connect to get messages");
             e.printStackTrace();
         }
     }
@@ -29,14 +29,5 @@ public class MessageReader extends Thread{
                 e.printStackTrace();
             }
         }
-    }
-
-    private void receiveMessage(){
-        String message = "";
-        while(!"/exit".equals(message)){
-            message = reader.readLine();
-            out.writeUTF(message);
-        }
-
     }
 }
