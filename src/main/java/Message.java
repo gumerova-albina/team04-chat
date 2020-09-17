@@ -3,7 +3,7 @@ import java.util.Date;
 public class Message {
     String text;
 
-    Date date = new Date();
+    Date date;
 
     public String getText() {
         return text;
@@ -15,5 +15,6 @@ public class Message {
 
     public Message (String in){
         text = in.substring(4);
+        date = new Date();
     }
 }
