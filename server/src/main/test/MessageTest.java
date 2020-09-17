@@ -17,7 +17,7 @@ public class MessageTest {
     public void timeTest(){
         String text = "text";
         Message myMessage = new Message(text);
-        assertTrue(true  );
+        assertTrue(true);
         assertTrue(myMessage.getDate().compareTo(new Date()) < 0);
     }
 
