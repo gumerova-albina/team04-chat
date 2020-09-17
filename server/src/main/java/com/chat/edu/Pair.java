@@ -1,3 +1,5 @@
+package com.chat.edu;
+
 public class Pair<K, L> {
     public final K first;
     public final L second;

@@ -1,3 +1,5 @@
+package com.chat.edu;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -27,8 +29,8 @@ public class Connection implements Runnable{
                     for(Pair <DataInputStream, DataOutputStream> x : Server.collection){
                         x.second.writeUTF(clientMessage.getDate() + ":" +  clientMessage.getText() + "\n");
                     }
-                    // Server.clientSocketList...
-                    // send Message to all other clients
+                    // com.chat.edu.Server.clientSocketList...
+                    // send com.chat.edu.Message to all other clients
                 }
 
                 if (clientLine.startsWith("/hist")) {

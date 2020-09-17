@@ -1,6 +1,4 @@
-
-import jdk.javadoc.internal.doclets.toolkit.util.Utils;
-import sun.text.resources.CollationData;
+package com.chat.edu;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -9,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
-    private static int PORT;
+    private static int PORT = 10_000;
 
     public static List<Socket> clientSocketList = new ArrayList<>();
     public static List<  Pair <DataInputStream, DataOutputStream>> collection;

@@ -2,6 +2,7 @@ package main.java.com.chat.edu;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -24,6 +25,8 @@ public class MessageReader extends Thread{
         while(true){
             try {
                 System.out.println(input.readUTF());
+            } catch (EOFException e) {
+
             } catch (IOException e) {
                 System.out.println("Can't get message from server");
                 e.printStackTrace();
