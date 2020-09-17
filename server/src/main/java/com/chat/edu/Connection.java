@@ -21,9 +21,12 @@ public class Connection implements Runnable{
             Pair <DataInputStream, DataOutputStream> pair = new Pair<>(input, out);
             Server.collection.add(pair);
             while(true) {
-
-
-                String clientLine = input.readUTF();
+                String clientLine;
+                try {
+                    clientLine = input.readUTF();
+                } catch (EOFException e) {
+                    continue;
+                }
                 if (clientLine.startsWith("/snd")) {
                     Message clientMessage = new Message(clientLine);
                     for(Pair <DataInputStream, DataOutputStream> x : Server.collection){

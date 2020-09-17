@@ -10,17 +10,13 @@ public class Server {
     private static int PORT = 10_000;
 
     public static List<Socket> clientSocketList = new ArrayList<>();
-    public static List<  Pair <DataInputStream, DataOutputStream>> collection;
+    public static List<  Pair <DataInputStream, DataOutputStream>> collection = new ArrayList<>();
 
     public static void main(String[] args) {
         try (final ServerSocket connectionPortListener = new ServerSocket(PORT);) {
             while (true) {
-                try (final Socket clientConnection = connectionPortListener.accept();) {
-                    clientSocketList.add(clientConnection);
-                    new Thread(new Connection(clientConnection)).start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                final Socket clientConnection = connectionPortListener.accept();
+                new Thread(new Connection(clientConnection)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
