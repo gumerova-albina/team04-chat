@@ -8,8 +8,10 @@ import java.net.Socket;
 
 public class MessageReader extends Thread{
     private DataInputStream input;
+    private Socket connection;
 
     public MessageReader(Socket connection) {
+        this.connection = connection;
         try {
             input = new DataInputStream(
                     new BufferedInputStream(
@@ -22,7 +24,7 @@ public class MessageReader extends Thread{
 
     @Override
     public void run(){
-        while(true){
+        while(!connection.isClosed()){
             try {
                 System.out.println(input.readUTF());
             } catch (EOFException e) {

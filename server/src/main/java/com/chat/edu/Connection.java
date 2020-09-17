@@ -35,12 +35,21 @@ public class Connection implements Runnable{
                     }
                     // com.chat.edu.Server.clientSocketList...
                     // send com.chat.edu.Message to all other clients
-                }
-
-                if (clientLine.startsWith("/hist")) {
+                } else if (clientLine.startsWith("/hist")) {
                     //History clientMessage = new History(clientLine);
 
                     // send History to exact client
+                } else if (clientLine.startsWith("/exit")){
+
+                }
+
+                if (clientLine.startsWith("/exit")) {
+                    // need to remove input & out from server`s collection
+                    // for that it is better to have map (user, its socket info)
+                    // add when user initialising is done
+                    System.out.println("User left chat");
+                    Thread.currentThread().interrupt();
+                    return;
                 }
             }
 
