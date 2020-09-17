@@ -6,7 +6,7 @@ import java.net.Socket;
 public class MessageWriter extends Thread{
     private DataOutputStream out;
 
-    MessageWriter(Socket connection){
+    public MessageWriter(Socket connection){
         try {
             out = new DataOutputStream(
                     new BufferedOutputStream(

@@ -8,7 +8,7 @@ import java.net.Socket;
 public class MessageReader extends Thread{
     private DataInputStream input;
 
-    MessageReader(Socket connection) {
+    public MessageReader(Socket connection) {
         try {
             input = new DataInputStream(
                     new BufferedInputStream(
