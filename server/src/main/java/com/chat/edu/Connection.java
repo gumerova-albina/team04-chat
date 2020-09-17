@@ -48,6 +48,7 @@ public class Connection implements Runnable{
                     // need to remove input & out from server`s collection
                     // for that it is better to have map (user, its socket info)
                     // add when user initialising is done
+                    System.out.println("User left chat");
                     Thread.currentThread().interrupt();
                     return;
                 }

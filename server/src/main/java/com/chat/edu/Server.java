@@ -16,6 +16,7 @@ public class Server {
         try (final ServerSocket connectionPortListener = new ServerSocket(PORT);) {
             while (true) {
                 final Socket clientConnection = connectionPortListener.accept();
+                System.out.println("User joined chat");
                 new Thread(new Connection(clientConnection)).start();
             }
         } catch (IOException e) {
