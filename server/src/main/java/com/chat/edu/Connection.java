@@ -31,6 +31,7 @@ public class Connection implements Runnable{
                     Message clientMessage = new Message(clientLine);
                     for(Pair <DataInputStream, DataOutputStream> x : Server.collection){
                         x.second.writeUTF(clientMessage.getDate() + ":" +  clientMessage.getText() + "\n");
+                        x.second.flush();
                     }
                     // com.chat.edu.Server.clientSocketList...
                     // send com.chat.edu.Message to all other clients

@@ -26,6 +26,7 @@ public class MessageWriter extends Thread{
             do {
                 message = reader.readLine();
                 out.writeUTF(message);
+                out.flush();
             } while (!"/exit".equals(message));
         } catch (IOException e) {
             System.out.println("Can't send message to server");
