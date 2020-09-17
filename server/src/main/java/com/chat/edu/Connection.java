@@ -42,6 +42,14 @@ public class Connection implements Runnable{
 
                     // send History to exact client
                 }
+
+                if (clientLine.startsWith("/exit")) {
+                    // need to remove input & out from server`s collection
+                    // for that it is better to have map (user, its socket info)
+                    // add when user initialising is done
+                    Thread.currentThread().interrupt();
+                    return;
+                }
             }
 
         } catch (IOException e) {
