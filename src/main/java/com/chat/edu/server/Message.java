@@ -43,7 +43,7 @@ public class Message {
 
     public String constructedMessage() {
         if(!"".equals(login)){
-            return login + "/cn (" + date + ") " + ":" + text + System.lineSeparator();
+            return login + " (" + date + ") " + ":" + text + System.lineSeparator();
         }
         return date + "." + text + System.lineSeparator();
     }
