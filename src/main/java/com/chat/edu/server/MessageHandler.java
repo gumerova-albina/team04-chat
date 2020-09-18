@@ -70,6 +70,9 @@ public class MessageHandler implements Runnable{
                         Server.loginMap.get(toLoginSend).flush();
                         out.writeUTF(clientMessage.constructedPersonalMessage(login, toLoginSend));
                         out.flush();
+                    } else {
+                        out.writeUTF("There are no user with login " + toLoginSend);
+                        out.flush();
                     }
                 } else if ("/exit".equals(action)) {
                     // need to remove input & out from server`s collection
