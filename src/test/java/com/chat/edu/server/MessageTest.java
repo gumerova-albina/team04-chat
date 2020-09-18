@@ -8,18 +8,10 @@ import static org.junit.Assert.assertTrue;
 
 public class MessageTest {
     @Test
-    public void shouldMessageBeHandledWithoutLogin(){
-        String testMessage = " /snd hello";
+    public void shouldMessageBeHandled(){
+        String testMessage = "/snd hello";
         Message myMessage = new Message(testMessage);
         Assert.assertEquals(" hello", myMessage.getText());
-    }
-
-    @Test
-    public void shouldMessageBeHandledWithLogin(){
-        String testMessage = "login /snd hello";
-        Message myMessage = new Message(testMessage);
-        Assert.assertEquals(" hello", myMessage.getText());
-        Assert.assertEquals("login", myMessage.getLogin());
     }
 
 //    @Test

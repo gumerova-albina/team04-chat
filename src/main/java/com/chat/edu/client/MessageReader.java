@@ -26,14 +26,13 @@ public class MessageReader extends Thread {
 
     @Override
     public void run() {
-        while (!connection.isClosed()) {
+        while (!connection.isClosed() && !connection.isOutputShutdown()) {
             try {
                 System.out.println(input.readUTF());
             } catch (EOFException e) {
 
             } catch (IOException e) {
-                System.out.println("Can't get message from server");
-                e.printStackTrace();
+                System.out.println("Can't get message from server (or maybe your connection with server is over)");
             }
         }
     }

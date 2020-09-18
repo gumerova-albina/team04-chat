@@ -10,8 +10,6 @@ import java.util.Date;
 public class Message {
     private final String text;
 
-    private final String login;
-
     private final String action;
 
     private final Date date;
@@ -24,10 +22,6 @@ public class Message {
         return date;
     }
 
-    public String getLogin(){
-        return login;
-    }
-
     public String getAction() {
         return action;
     }
@@ -35,16 +29,23 @@ public class Message {
     public Message (String in){
         String delims = " ";
         String tokens[] = in.split(delims);
-        login = tokens[0];
-        action = tokens[1];
-        text = in.substring(login.length()+action.length()+1);
+        action = tokens[0];
+        text = in.substring(action.length());
         date = new Date();
     }
 
-    public String constructedMessage() {
+    public String constructedMessage(String login) {
         if(!"".equals(login)){
-            return date + "." + login + ":" + text + System.lineSeparator();
+            return login + " (" + date + ") " + ":" + text;
         }
-        return date + "." + text + System.lineSeparator();
+        return " (" + date + ") " + ":" + text;
+    }
+
+    public String constructedPersonalMessage(String login) {
+        String personalText = text.substring(text.split(" ")[1].length()+1);
+        if(!"".equals(login)){
+            return login + " (" + date + ") " + "[Personal]:" + personalText;
+        }
+        return " (" + date + ") " + "[Personal]:" + personalText;
     }
 }

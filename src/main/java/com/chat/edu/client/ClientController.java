@@ -17,7 +17,10 @@ public class ClientController {
             new MessageWriter(connection).start();
         } catch (IOException e) {
             System.out.println("Can't connect to server");
-            e.printStackTrace();
+            return;
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return;
         }
     }
 
