@@ -52,15 +52,20 @@ public class MessageHandler implements Runnable{
                     // add when user initialising is done
                     System.out.println(!"".equals(clientMessage.getLogin()) ? clientMessage.getLogin()+" left chat" : "User left chat");
                     Server.collection.remove(pair);
-                    input.close();
-                    out.close();
-                    clientSocket.close();
-                    Thread.currentThread().interrupt();
                     return;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                clientSocket.close();
+            } catch (IOException e) {
+                System.out.println("Mistakes while closing client socket");
+                e.printStackTrace();
+            }
+            Thread.currentThread().interrupt();
+            return;
         }
     }
 }

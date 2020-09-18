@@ -2,6 +2,7 @@ package com.chat.edu.client;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * Class that build and send messages from user to server
@@ -78,8 +79,7 @@ public class MessageWriter extends Thread{
             out.writeUTF(login + " " + message);
             out.flush();
         } catch (IOException e) {
-            System.out.println("Can't send message to server");
-            e.printStackTrace();
+            System.out.println("Can't send message to server (maybe server closed your connection, try to reconnect)");
         }
     }
 }
