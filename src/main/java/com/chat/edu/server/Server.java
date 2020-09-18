@@ -5,9 +5,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Server {
     private static final int PORT = 10_000;
+
+    public static Map<String, DataOutputStream> loginMap = new ConcurrentHashMap<String, DataOutputStream>();
 
     public static List<Pair <DataInputStream, DataOutputStream>> collection = new ArrayList<>();
 

@@ -40,4 +40,12 @@ public class Message {
         }
         return " (" + date + ") " + ":" + text;
     }
+
+    public String constructedPersonalMessage(String login) {
+        String personalText = text.substring(text.split(" ")[1].length()+1);
+        if(!"".equals(login)){
+            return login + " (" + date + ") " + "[Personal]:" + personalText;
+        }
+        return " (" + date + ") " + "[Personal]:" + personalText;
+    }
 }
