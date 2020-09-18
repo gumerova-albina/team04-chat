@@ -59,6 +59,12 @@
             <version>5.2.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+        <groupId>org.easytesting</groupId>
+        <artifactId>fest-assert</artifactId>
+        <version>1.4</version>
+        <scope>test</scope>
+    </dependency>
     </dependencies>
 
     <build>
