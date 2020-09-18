@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class MessageTest {
     @Test
     public void messageTest(){
-        String testMessage = "/snd hello";
+        String testMessage = " /snd hello";
         Message myMessage = new Message(testMessage);
         Assert.assertEquals(" hello", myMessage.getText());
     }
