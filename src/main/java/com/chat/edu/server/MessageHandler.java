@@ -6,10 +6,10 @@ import java.net.Socket;
 /**
  * Class that receives and handles messages from clients
  */
-public class MessageHadler implements Runnable{
+public class MessageHandler implements Runnable {
     final private Socket clientSocket;
 
-    public MessageHadler(Socket clientSocket) {
+    public MessageHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
 
@@ -50,7 +50,6 @@ public class MessageHadler implements Runnable{
                     // for that it is better to have map (user, its socket info)
                     // add when user initialising is done
                     System.out.println(!"".equals(clientMessage.getLogin()) ? clientMessage.getLogin()+" left chat" : "User left chat");
-                    Thread.currentThread().interrupt();
                     return;
                 }
             }
