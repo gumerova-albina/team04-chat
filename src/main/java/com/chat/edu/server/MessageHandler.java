@@ -38,7 +38,7 @@ public class MessageHandler implements Runnable{
                 }
                 String action = clientMessage.getAction();
                 if ("/snd".equals(action)) {
-                    sendMessage(clientMessage.constructedMessage(login));
+                    MessageSender.sendMessage(clientMessage.constructedMessage(login));
                     synchronized (Server.messageList){
                         Server.messageList.add(clientMessage);
                     }
@@ -58,6 +58,7 @@ public class MessageHandler implements Runnable{
                     login = clientMessage.getText().substring(1);
                     if(Server.loginMap.containsKey(login)){
                         out.writeUTF("Login is already in use");
+                        out.flush();
                     }
                     else {
                         Server.loginMap.put(login, out);
@@ -90,18 +91,6 @@ public class MessageHandler implements Runnable{
             }
             Thread.currentThread().interrupt();
             return;
-        }
-    }
-
-    private void sendMessage(String constructedMessage) {
-        try {
-            for(Pair <DataInputStream, DataOutputStream> x : Server.collection){
-                x.second.writeUTF(constructedMessage);
-                x.second.flush();
-            }
-        } catch (IOException e) {
-            System.out.println();
-            e.printStackTrace();
         }
     }
 }
