@@ -7,12 +7,13 @@ import java.util.ArrayList;
 /**
  * Class that receives and handles messages from clients
  */
-public class MessageHandler implements Runnable{
+public class MessageHandler implements Runnable {
     final private Socket clientSocket;
     private String login = "";
-    private String room = "";
+    private String room = "global";
 
     public MessageHandler(Socket clientSocket) {
+        Server.rooms.put(room, new ArrayList<>());
         this.clientSocket = clientSocket;
     }
 
@@ -30,6 +31,10 @@ public class MessageHandler implements Runnable{
             * Allows connect with other clients
              */
             Pair <DataInputStream, DataOutputStream> pair = new Pair<>(input, out);
+            synchronized (Server.rooms) {
+                Server.rooms.get("global").add(out);
+            }
+            sendMessageToRoom(login + " joined this room (\"" + room +"\")", room);
             Server.collection.add(pair);
             while(!clientSocket.isClosed()) {
                 Message clientMessage;
@@ -40,14 +45,17 @@ public class MessageHandler implements Runnable{
                 }
                 String action = clientMessage.getAction();
                 if ("/snd".equals(action)) {
+                    /*
                     if ("".equals(room)) {
                         sendMessage(clientMessage.constructedMessage(login));
                         synchronized (Server.messageList) {
                             Server.messageList.add(clientMessage);
                         }
                     } else {
-                        sendMessageToRoom(clientMessage.constructedMessage(login), room);
-                    }
+
+                     */
+                    sendMessageToRoom(clientMessage.constructedMessage(login), room);
+                    // }
                     // com.chat.edu.server.Server.clientSocketList...
                     // send com.chat.edu.server.Message to all other clients
                 } else if ("/hist".equals(action)) {
@@ -77,17 +85,17 @@ public class MessageHandler implements Runnable{
                         out.flush();
                     }
                 } else if ("/chroom".equals(action)) {
-                    if ("".equals(login)) {
+                    String roomName = clientMessage.getText().substring(1);
+                    if (!"global".equals(roomName) && "".equals(login)) {
                         out.writeUTF("login is required");
                         out.flush();
                         continue;
                     }
-                    String roomName = clientMessage.getText().substring(1);
                     if (!Server.rooms.containsKey(roomName)) {
                         Server.rooms.put(roomName, new ArrayList<>());
                     }
                     if (Server.rooms.containsKey(room)) {
-                        sendMessageToRoom(login + " left this room (\"" + room +"\")", room);
+                        sendMessageToRoom(login + " left this room (\"" + room + "\")", room);
                         Server.rooms.get(room).remove(out);
                     }
                     if (Server.rooms.get(roomName).contains(out)) {
