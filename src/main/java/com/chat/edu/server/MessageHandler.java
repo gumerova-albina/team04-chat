@@ -8,6 +8,7 @@ import java.net.Socket;
  */
 public class MessageHandler implements Runnable{
     final private Socket clientSocket;
+    private String login = "";
 
     public MessageHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -23,8 +24,8 @@ public class MessageHandler implements Runnable{
                              clientSocket.getOutputStream()))
         ) {
             /*
-            * Should be here hashMap?
-            *
+            * Add pair of input/output in server memory
+            * Allows connect with other clients
              */
             Pair <DataInputStream, DataOutputStream> pair = new Pair<>(input, out);
             Server.collection.add(pair);
@@ -35,22 +36,22 @@ public class MessageHandler implements Runnable{
                 } catch (EOFException e) {
                     continue;
                 }
-                if ("/snd".equals(clientMessage.getAction())) {
-                    for(Pair <DataInputStream, DataOutputStream> x : Server.collection){
-                        x.second.writeUTF(clientMessage.constructedMessage());
-                        x.second.flush();
-                    }
+                String action = clientMessage.getAction();
+                if ("/snd".equals(action)) {
+                    sendMessage(clientMessage.constructedMessage(login));
                     // com.chat.edu.server.Server.clientSocketList...
                     // send com.chat.edu.server.Message to all other clients
-                } else if ("/hist".equals(clientMessage.getAction())) {
+                } else if ("/hist".equals(action)) {
                     //History clientMessage = new History(clientLine);
 
                     // send History to exact client
-                } else if ("/exit".equals(clientMessage.getAction())) {
+                } else if("/chid".equals(action)){
+                    login = clientMessage.getText();
+                } else if ("/exit".equals(action)) {
                     // need to remove input & out from server`s collection
                     // for that it is better to have map (user, its socket info)
                     // add when user initialising is done
-                    System.out.println(!"".equals(clientMessage.getLogin()) ? clientMessage.getLogin()+" left chat" : "User left chat");
+                    System.out.println(!"".equals(login) ? login+" left chat" : "User left chat");
                     Server.collection.remove(pair);
                     return;
                 }
@@ -66,6 +67,18 @@ public class MessageHandler implements Runnable{
             }
             Thread.currentThread().interrupt();
             return;
+        }
+    }
+
+    private void sendMessage(String constructedMessage) {
+        try {
+            for(Pair <DataInputStream, DataOutputStream> x : Server.collection){
+                x.second.writeUTF(constructedMessage);
+                x.second.flush();
+            }
+        } catch (IOException e) {
+            System.out.println();
+            e.printStackTrace();
         }
     }
 }
