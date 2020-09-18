@@ -55,17 +55,7 @@ public class MessageHandler implements Runnable {
                 String action = clientMessage.getAction();
 
                 if ("/snd".equals(action)) {
-                    /*
-                    if ("".equals(room)) {
-                        sendMessage(clientMessage.constructedMessage(login));
-                        synchronized (Server.messageList) {
-                            Server.messageList.add(clientMessage);
-                        }
-                    } else {
-
-                     */
                     if (checkLoginAndRoom(out)) {
-
                         sendMessageToRoom(clientMessage.constructedMessage(login), room);
                     } else {
                         out.writeUTF("Please provide your login & room");
