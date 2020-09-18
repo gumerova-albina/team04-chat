@@ -10,11 +10,25 @@ import java.util.ArrayList;
 public class MessageHandler implements Runnable {
     final private Socket clientSocket;
     private String login = "";
-    private String room = "global";
+    private String room = "";
 
     public MessageHandler(Socket clientSocket) {
         Server.rooms.put(room, new ArrayList<>());
         this.clientSocket = clientSocket;
+    }
+
+    private boolean checkLoginAndRoom(DataOutputStream out) throws IOException {
+        if ("".equals(login))
+        {
+            return false;
+        }
+
+
+        if ("".equals(room))
+        {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -30,12 +44,7 @@ public class MessageHandler implements Runnable {
             * Add pair of input/output in server memory
             * Allows connect with other clients
              */
-            Pair <DataInputStream, DataOutputStream> pair = new Pair<>(input, out);
-            synchronized (Server.rooms.get("global")) {
-                Server.rooms.get("global").add(out);
-            }
-            sendMessageToRoom(login + " joined this room (\"" + room +"\")", room);
-            Server.collection.add(pair);
+
             while(!clientSocket.isClosed()) {
                 Message clientMessage;
                 try {
@@ -44,6 +53,7 @@ public class MessageHandler implements Runnable {
                     continue;
                 }
                 String action = clientMessage.getAction();
+
                 if ("/snd".equals(action)) {
                     /*
                     if ("".equals(room)) {
@@ -54,16 +64,27 @@ public class MessageHandler implements Runnable {
                     } else {
 
                      */
-                    sendMessageToRoom(clientMessage.constructedMessage(login), room);
+                    if (checkLoginAndRoom(out)) {
+
+                        sendMessageToRoom(clientMessage.constructedMessage(login), room);
+                    } else {
+                        out.writeUTF("Please provide your login & room");
+                        out.flush();
+                    }
                     // }
                     // com.chat.edu.server.Server.clientSocketList...
                     // send com.chat.edu.server.Message to all other clients
                 } else if ("/hist".equals(action)) {
-                    //History clientMessage = new History(clientLine);
-                    synchronized (Server.messageList) {
-                        for (int i = 0; i < Server.messageList.size(); i++) {
-                            out.writeUTF(Server.messageList.get(i).getDate() + ":" + Server.messageList.get(i).getText());
+                    if (checkLoginAndRoom(out)) {
+                        //History clientMessage = new History(clientLine);
+                        synchronized (Server.messageList) {
+                            for (int i = 0; i < Server.messageList.size(); i++) {
+                                out.writeUTF(Server.messageList.get(i).getDate() + ":" + Server.messageList.get(i).getText());
+                            }
+                            out.flush();
                         }
+                    } else {
+                        out.writeUTF("Please provide your login & room");
                         out.flush();
                     }
                 }
@@ -78,14 +99,19 @@ public class MessageHandler implements Runnable {
                         Server.loginMap.put(login, out);
                     }
                 } else if("/sdnp".equals(action)){
-                    String toLoginSend = clientMessage.getText().split(" ")[1];
-                    if (Server.loginMap.containsKey(toLoginSend)){
-                        Server.loginMap.get(toLoginSend).writeUTF(clientMessage.constructedPersonalMessage(login, toLoginSend));
-                        Server.loginMap.get(toLoginSend).flush();
-                        out.writeUTF(clientMessage.constructedPersonalMessage(login, toLoginSend));
-                        out.flush();
+                    if (checkLoginAndRoom(out)) {
+                        String toLoginSend = clientMessage.getText().split(" ")[1];
+                        if (Server.loginMap.containsKey(toLoginSend)) {
+                            Server.loginMap.get(toLoginSend).writeUTF(clientMessage.constructedPersonalMessage(login, toLoginSend));
+                            Server.loginMap.get(toLoginSend).flush();
+                            out.writeUTF(clientMessage.constructedPersonalMessage(login, toLoginSend));
+                            out.flush();
+                        } else {
+                            out.writeUTF("There are no user with login " + toLoginSend);
+                            out.flush();
+                        }
                     } else {
-                        out.writeUTF("There are no user with login " + toLoginSend);
+                        out.writeUTF("Please provide your login & room");
                         out.flush();
                     }
                 } else if ("/chroom".equals(action)) {
