@@ -6,13 +6,14 @@ import java.net.Socket;
 /**
  * Class that receives and handles messages from clients
  */
-public class MessageHandler implements Runnable {
+public class MessageHadler implements Runnable{
     final private Socket clientSocket;
 
-    public MessageHandler(Socket clientSocket) {
+    public MessageHadler(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
 
+    @Override
     public void run() {
         try (final DataInputStream input = new DataInputStream(
              new BufferedInputStream(
@@ -27,7 +28,7 @@ public class MessageHandler implements Runnable {
              */
             Pair <DataInputStream, DataOutputStream> pair = new Pair<>(input, out);
             Server.collection.add(pair);
-            while(true) {
+            while(!clientSocket.isClosed()) {
                 Message clientMessage;
                 try {
                     clientMessage = new Message(input.readUTF());
@@ -50,6 +51,11 @@ public class MessageHandler implements Runnable {
                     // for that it is better to have map (user, its socket info)
                     // add when user initialising is done
                     System.out.println(!"".equals(clientMessage.getLogin()) ? clientMessage.getLogin()+" left chat" : "User left chat");
+                    Server.collection.remove(pair);
+                    input.close();
+                    out.close();
+                    clientSocket.close();
+                    Thread.currentThread().interrupt();
                     return;
                 }
             }
