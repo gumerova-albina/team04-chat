@@ -9,10 +9,7 @@ import java.net.Socket;
  */
 
 public class ClientController {
-    private static String host = "127.0.0.1";
-    private static int port = 10_000;
-
-    public static void start() {
+    public static void start(String host, int port) {
         try {
             final Socket connection = new Socket(host, port);
             printInstructions();
