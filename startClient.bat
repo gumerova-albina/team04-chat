@@ -1,1 +1,1 @@
-java -classpath team04-1.0-20200918.071920-1.jar com.chat.edu.client.Client
+java -classpath team04-1.0-20200918.071920-1.jar com.chat.edu.client.Client localhost 10000
