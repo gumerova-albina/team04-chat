@@ -6,10 +6,10 @@ import java.net.Socket;
 /**
  * Class that receives and handles messages from clients
  */
-public class MessageHadler implements Runnable{
+public class MessageHandler implements Runnable{
     final private Socket clientSocket;
 
-    public MessageHadler(Socket clientSocket) {
+    public MessageHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
 
