@@ -32,8 +32,7 @@ public class MessageReader extends Thread {
             } catch (EOFException e) {
 
             } catch (IOException e) {
-                System.out.println("Can't get message from server");
-                e.printStackTrace();
+                System.out.println("Can't get message from server (or maybe your connection with server is over)");
             }
         }
     }
