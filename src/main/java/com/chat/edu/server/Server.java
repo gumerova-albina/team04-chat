@@ -14,7 +14,7 @@ public class Server {
 
     public static void main(String[] args) {
         try (final ServerSocket connectionPortListener = new ServerSocket(PORT);) {
-            while (true) {
+            while (!connectionPortListener.isClosed()) {
                 final Socket clientConnection = connectionPortListener.accept();
                 System.out.println("User joined chat");
                 new Thread(new MessageHadler(clientConnection)).start();
@@ -22,6 +22,5 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

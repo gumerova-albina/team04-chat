@@ -26,7 +26,7 @@ public class MessageReader extends Thread {
 
     @Override
     public void run() {
-        while (!connection.isClosed()) {
+        while (!connection.isClosed() && !connection.isOutputShutdown()) {
             try {
                 System.out.println(input.readUTF());
             } catch (EOFException e) {
