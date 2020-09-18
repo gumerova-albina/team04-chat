@@ -2,6 +2,7 @@ package com.chat.edu.server;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Class that receives and handles messages from clients
@@ -9,6 +10,7 @@ import java.net.Socket;
 public class MessageHandler implements Runnable{
     final private Socket clientSocket;
     private String login = "";
+    private String room = "";
 
     public MessageHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -38,9 +40,13 @@ public class MessageHandler implements Runnable{
                 }
                 String action = clientMessage.getAction();
                 if ("/snd".equals(action)) {
-                    sendMessage(clientMessage.constructedMessage(login));
-                    synchronized (Server.messageList){
-                        Server.messageList.add(clientMessage);
+                    if ("".equals(room)) {
+                        sendMessage(clientMessage.constructedMessage(login));
+                        synchronized (Server.messageList) {
+                            Server.messageList.add(clientMessage);
+                        }
+                    } else {
+                        sendMessageToRoom(clientMessage.constructedMessage(login), room);
                     }
                     // com.chat.edu.server.Server.clientSocketList...
                     // send com.chat.edu.server.Message to all other clients
@@ -70,12 +76,35 @@ public class MessageHandler implements Runnable{
                         out.writeUTF(clientMessage.constructedPersonalMessage(login, toLoginSend));
                         out.flush();
                     }
+                } else if ("/chroom".equals(action)) {
+                    if ("".equals(login)) {
+                        out.writeUTF("login is required");
+                        out.flush();
+                        continue;
+                    }
+                    String roomName = clientMessage.getText().substring(1);
+                    if (!Server.rooms.containsKey(roomName)) {
+                        Server.rooms.put(roomName, new ArrayList<>());
+                    }
+                    if (Server.rooms.containsKey(room)) {
+                        sendMessageToRoom(login + " left this room (\"" + room +"\")", room);
+                        Server.rooms.get(room).remove(out);
+                    }
+                    if (Server.rooms.get(roomName).contains(out)) {
+                        out.writeUTF("it is your current room");
+                        out.flush();
+                        continue;
+                    }
+                    Server.rooms.get(roomName).add(out);
+                    sendMessageToRoom(login + " joined this room (\"" + roomName +"\")", roomName);
+                    room = roomName;
                 } else if ("/exit".equals(action)) {
                     // need to remove input & out from server`s collection
                     // for that it is better to have map (user, its socket info)
                     // add when user initialising is done
                     System.out.println(!"".equals(login) ? login+" left chat" : "User left chat");
-                    Server.collection.remove(pair);
+                    sendMessageToRoom(login + " left this room (\"" + room +"\")", room);
+                    Server.rooms.get(room).remove(out);
                     return;
                 }
             }
@@ -98,6 +127,18 @@ public class MessageHandler implements Runnable{
             for(Pair <DataInputStream, DataOutputStream> x : Server.collection){
                 x.second.writeUTF(constructedMessage);
                 x.second.flush();
+            }
+        } catch (IOException e) {
+            System.out.println();
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessageToRoom(String constructedMessage, String roomName) {
+        try {
+            for(DataOutputStream x : Server.rooms.get(roomName)){
+                x.writeUTF(constructedMessage);
+                x.flush();
             }
         } catch (IOException e) {
             System.out.println();

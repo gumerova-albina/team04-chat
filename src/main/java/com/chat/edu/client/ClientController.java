@@ -29,6 +29,7 @@ public class ClientController {
         System.out.println("Please type /hist to see the history of messages");
         System.out.println("Please type /snd before the message to send");
         System.out.println("Please type /chid to enter your login");
+        System.out.println("Please type /chroom <Room Name> to change your chat room (empty name for global chat)");
         System.out.println("Please type /sdnp <Login You Want Send Message> to send personal message");
     }
 }

@@ -13,6 +13,8 @@ public class Server {
 
     public static List<Pair<DataInputStream, DataOutputStream>> collection = new ArrayList<>();
 
+    public static Map<String, List<DataOutputStream>> rooms = new ConcurrentHashMap<>();
+
     public static List<Message> messageList = new ArrayList<>();
 
     public static void main(String[] args) {
