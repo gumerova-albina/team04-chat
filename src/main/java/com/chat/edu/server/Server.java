@@ -11,6 +11,8 @@ public class Server {
 
     public static List<Pair <DataInputStream, DataOutputStream>> collection = new ArrayList<>();
 
+    public static List<Message> messageList = new ArrayList<>();
+
     public static void main(String[] args) {
         try (final ServerSocket connectionPortListener = new ServerSocket(PORT);) {
             while (!connectionPortListener.isClosed()) {

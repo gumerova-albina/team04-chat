@@ -39,11 +39,20 @@ public class MessageHandler implements Runnable{
                 String action = clientMessage.getAction();
                 if ("/snd".equals(action)) {
                     sendMessage(clientMessage.constructedMessage(login));
+                    synchronized (Server.messageList) {
+                        Server.messageList.add(clientMessage);
+                    }
                     // com.chat.edu.server.Server.clientSocketList...
                     // send com.chat.edu.server.Message to all other clients
                 } else if ("/hist".equals(action)) {
+                    System.out.println("In history");
                     //History clientMessage = new History(clientLine);
-
+                    synchronized (Server.messageList) {
+                        for(int i = 0; i < Server.messageList.size(); i++){
+                            out.writeUTF(Server.messageList.get(i).getDate() + ":" + Server.messageList.get(i).getText());
+                        }
+                        out.flush();
+                    }
                     // send History to exact client
                 } else if("/chid".equals(action)){
                     login = clientMessage.getText();
