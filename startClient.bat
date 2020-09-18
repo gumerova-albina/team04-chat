@@ -1,3 +1,1 @@
-if not exist ".\cient\target\" mkdir .\client\target
-javac -sourcepath ./client/src -d client/target/ client/src/main/java/com/chat/edu/Client.java
-java -classpath ./client/target/ main/java/com/chat/edu/Client
+java -classpath team04-1.0-20200918.071920-1.jar com.chat.edu.client.Client
