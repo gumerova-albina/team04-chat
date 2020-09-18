@@ -38,6 +38,6 @@ public class Message {
         if(!"".equals(login)){
             return login + " (" + date + ") " + ":" + text;
         }
-        return date + "." + text;
+        return " (" + date + ") " + ":" + text;
     }
 }
