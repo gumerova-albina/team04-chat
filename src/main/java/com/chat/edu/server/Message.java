@@ -26,7 +26,7 @@ public class Message {
         return action;
     }
 
-    public Message (String in){
+    public Message (String in) {
         String delims = " ";
         String tokens[] = in.split(delims);
         action = tokens[0];

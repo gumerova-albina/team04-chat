@@ -13,7 +13,9 @@ public class Server {
 
     static List<Pair<DataInputStream, DataOutputStream>> collection = new ArrayList<>();
 
-    static List<Message> messageList = new ArrayList<>();
+    public static Map<String, List<DataOutputStream>> rooms = new ConcurrentHashMap<>();
+
+    public static List<Message> messageList = new ArrayList<>();
 
     public static void main(String[] args) {
         if (args.length != 1) {
