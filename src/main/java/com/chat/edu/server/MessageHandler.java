@@ -55,7 +55,21 @@ public class MessageHandler implements Runnable{
                 }
                 // send History to exact client
                 else if("/chid".equals(action)){
-                    login = clientMessage.getText();
+                    login = clientMessage.getText().substring(1);
+                    if(Server.loginMap.containsKey(login)){
+                        out.writeUTF("Login is already in use");
+                    }
+                    else {
+                        Server.loginMap.put(login, out);
+                    }
+                } else if("/sdnp".equals(action)){
+                    String toLoginSend = clientMessage.getText().split(" ")[1];
+                    if (Server.loginMap.containsKey(toLoginSend)){
+                        Server.loginMap.get(toLoginSend).writeUTF(clientMessage.constructedPersonalMessage(login, toLoginSend));
+                        Server.loginMap.get(toLoginSend).flush();
+                        out.writeUTF(clientMessage.constructedPersonalMessage(login, toLoginSend));
+                        out.flush();
+                    }
                 } else if ("/exit".equals(action)) {
                     // need to remove input & out from server`s collection
                     // for that it is better to have map (user, its socket info)

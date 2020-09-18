@@ -57,13 +57,13 @@ public class MessageTest {
         String testPersonalMessage = "/sdnp otherLogin hi!";
         myMessage = new Message(testPersonalMessage);
         date = new Date();
-        Assert.assertEquals("(" + date + ") " + "[Personal]: hi!", myMessage.constructedPersonalMessage(""));
+        Assert.assertEquals("(" + date + ") " + "[Personal to otherLogin]: hi!", myMessage.constructedPersonalMessage("","otherLogin"));
 
         /*
          * Test personal Message with login
          *
          */
-        Assert.assertEquals("login (" + date + ") " + "[Personal]: hi!", myMessage.constructedPersonalMessage("login"));
+        Assert.assertEquals("from: login (" + date + ") " + "[Personal to otherLogin]: hi!", myMessage.constructedPersonalMessage("login","otherLogin"));
     }
 
 
