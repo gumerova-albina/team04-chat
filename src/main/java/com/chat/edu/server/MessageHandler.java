@@ -31,7 +31,7 @@ public class MessageHandler implements Runnable {
             * Allows connect with other clients
              */
             Pair <DataInputStream, DataOutputStream> pair = new Pair<>(input, out);
-            synchronized (Server.rooms) {
+            synchronized (Server.rooms.get("global")) {
                 Server.rooms.get("global").add(out);
             }
             sendMessageToRoom(login + " joined this room (\"" + room +"\")", room);
