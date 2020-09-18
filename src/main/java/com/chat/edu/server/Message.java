@@ -38,7 +38,7 @@ public class Message {
         if(!"".equals(login)){
             return login + " (" + date + ") " + ":" + text;
         }
-        return " (" + date + ") " + ":" + text;
+        return "(" + date + ") " + ":" + text;
     }
 
     public String constructedPersonalMessage(String login) {
@@ -46,6 +46,6 @@ public class Message {
         if(!"".equals(login)){
             return login + " (" + date + ") " + "[Personal]:" + personalText;
         }
-        return " (" + date + ") " + "[Personal]:" + personalText;
+        return "(" + date + ") " + "[Personal]:" + personalText;
     }
 }
